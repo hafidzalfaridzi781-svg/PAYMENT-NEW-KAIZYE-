@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAIZYE PAYMENT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Exo 2', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.95)), 
+                        url('https://files.catbox.moe/adgft4.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #00ffea;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .cyber-grid {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 234, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 234, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .glitch-text {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            position: relative;
+            animation: glitch 3s infinite;
+            text-shadow: 0 0 10px #00ffea;
+        }
+        
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+            2% { text-shadow: 3px 0 #ff00ff, -3px 0 #00ffff; }
+            4% { text-shadow: 1px 0 #ff00ff, -1px 0 #00ffff; }
+            100% { text-shadow: 0 0 15px #00ffea; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #00ffea;
+            margin-bottom: 40px;
+            box-shadow: 0 0 20px rgba(0, 255, 234, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 20, 30, 0.7);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #80ffea;
+            letter-spacing: 2px;
+        }
+        
+        .audio-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .audio-btn {
+            background: rgba(0, 30, 40, 0.8);
+            border: 2px solid #00ffea;
+            color: #00ffea;
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(0, 255, 234, 0.5);
+        }
+        
+        .audio-btn:hover {
+            background: #00ffea;
+            color: #000;
+            transform: scale(1.05);
+        }
+        
+        .payment-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .payment-card {
+            background: rgba(0, 20, 30, 0.8);
+            border: 2px solid #00ffea;
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(0, 255, 234, 0.2);
+        }
+        
+        .payment-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 40px rgba(0, 255, 234, 0.5);
+        }
+        
+        .payment-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 255, 234, 0.3);
+        }
+        
+        .payment-icon {
+            font-size: 2.5rem;
+            color: #00ffea;
+        }
+        
+        .payment-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+        }
+        
+        .qr-container {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+        
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            border: 3px solid #00ffea;
+            border-radius: 10px;
+            padding: 5px;
+            background: white;
+        }
+        
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .payment-details {
+            background: rgba(0, 10, 20, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #00ffea;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(0, 255, 234, 0.2);
+        }
+        
+        .copy-btn {
+            background: rgba(0, 255, 234, 0.1);
+            border: 1px solid #00ffea;
+            color: #00ffea;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #00ffea;
+            color: #000;
+        }
+        
+        .contact-section {
+            background: rgba(0, 30, 40, 0.8);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 40px;
+            border: 2px solid #ff00ff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+        }
+        
+        .contact-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            min-width: 250px;
+            justify-content: center;
+            border: 2px solid;
+        }
+        
+        .whatsapp-btn {
+            background: rgba(37, 211, 102, 0.2);
+            color: #25D366;
+            border-color: #25D366;
+        }
+        
+        .telegram-btn {
+            background: rgba(0, 136, 204, 0.2);
+            color: #0088cc;
+            border-color: #0088cc;
+        }
+        
+        .contact-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 25px;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #25D366;
+            color: #000;
+            box-shadow: 0 0 25px #25D366;
+        }
+        
+        .telegram-btn:hover {
+            background: #0088cc;
+            color: #000;
+            box-shadow: 0 0 25px #0088cc;
+        }
+        
+        .upload-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(0, 20, 30, 0.8);
+            border-radius: 15px;
+            border: 2px solid #00ffea;
+        }
+        
+        .upload-area {
+            border: 3px dashed #00ffea;
+            border-radius: 10px;
+            padding: 50px 20px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover {
+            background: rgba(0, 255, 234, 0.1);
+        }
+        
+        .upload-btn {
+            background: linear-gradient(45deg, #00ffea, #ff00ff);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .upload-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px #00ffea;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 30, 40, 0.95);
+            border: 2px solid #00ffea;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(0, 255, 234, 0.3);
+            color: #80ffea;
+            font-size: 0.9rem;
+        }
+        
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, transparent, #00ffea, transparent);
+            animation: scan 3s linear infinite;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .payment-section { grid-template-columns: 1fr; }
+            .contact-buttons { flex-direction: column; align-items: center; }
+            .contact-btn { width: 100%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-grid"></div>
+    <div class="scan-line"></div>
+    
+    <div class="audio-control">
+        <button class="audio-btn" id="audioToggle">
+            <i class="fas fa-play"></i> <span>PLAY MUSIC</span>
+        </button>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1 class="glitch-text">KAIZYE PAYMENT</h1>
+            <p class="subtitle">SECURE TRANSACTION PORTAL • ENCRYPTED CHANNEL • INSTANT VERIFICATION</p>
+        </header>
+        
+        <div class="payment-section">
+            <div class="payment-card">
+                <div class="payment-header">
+                    <div class="payment-icon">
+                        <i class="fab fa-qrcode"></i>
+                    </div>
+                    <h2 class="payment-title glitch-text">QRIS PAYMENT</h2>
+                </div>
+                
+                <div class="qr-container">
+                    <p>Scan QR Code dibawah ini untuk pembayaran</p>
+                    <div class="qr-code">
+                        <img src="https://files.catbox.moe/6422u5.jpg" alt="QRIS Code">
+                    </div>
+                    <p>Gunakan aplikasi bank/e-wallet untuk scan</p>
+                </div>
+                
+                <div class="payment-details">
+                    <div class="detail-item">
+                        <span>Metode:</span>
+                        <span>QRIS All Payment</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Status:</span>
+                        <span style="color:#00ff00;">● AKTIF</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="payment-card">
+                <div class="payment-header">
+                    <div class="payment-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h2 class="payment-title glitch-text">DANA PAYMENT</h2>
+                </div>
+                
+                <div class="payment-details">
+                    <div class="detail-item">
+                        <span>Nomor DANA:</span>
+                        <span>0882 2928 6129</span>
+                        <button class="copy-btn" onclick="copyToClipboard('088229286129')">
+                            <i class="fas fa-copy"></i> Salin
+                        </button>
+                    </div>
+                    <div class="detail-item">
+                        <span>Pemilik:</span>
+                        <span>KAIZYE_STORE</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Status:</span>
+                        <span style="color:#00ff00;">● AKTIF 24 JAM</span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,0,0.1); border-radius: 10px;">
+                    <h3 style="color:#ffff00; margin-bottom: 10px;"><i class="fas fa-exclamation-triangle"></i> INSTRUKSI:</h3>
+                    <p>1. Transfer sesuai nominal pesanan</p>
+                    <p>2. Simpan bukti transfer</p>
+                    <p>3. Konfirmasi ke admin setelah transfer</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-section">
+            <h2 class="contact-title glitch-text">KONFIRMASI PEMBAYARAN</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">Setelah melakukan pembayaran, segera hubungi admin untuk konfirmasi</p>
+            
+            <div class="upload-section">
+                <h3 style="color:#00ffea; margin-bottom: 15px;"><i class="fas fa-upload"></i> UPLOAD BUKTI PEMBAYARAN</h3>
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 4rem; color:#00ffea; margin-bottom: 20px;"></i>
+                    <p style="font-size: 1.2rem;">Drag & drop screenshot bukti pembayaran disini</p>
+                    <p style="color:#80ffea; margin-top: 10px;">atau klik untuk memilih file</p>
+                    <input type="file" id="fileInput" accept="image/*" style="display:none;">
+                </div>
+                <button class="upload-btn" id="uploadBtn">
+                    <i class="fas fa-paper-plane"></i> KIRIM BUKTI PEMBAYARAN
+                </button>
+            </div>
+            
+            <div class="contact-buttons">
+                <a href="https://wa.me/6288220455270" class="contact-btn whatsapp-btn" target="_blank">
+                    <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>
+                    <span>WHATSAPP ADMIN</span>
+                </a>
+                
+                <a href="https://t.me/KAIZYE_STORE" class="contact-btn telegram-btn" target="_blank">
+                    <i class="fab fa-telegram" style="font-size: 1.5rem;"></i>
+                    <span>TELEGRAM ADMIN</span>
+                </a>
+            </div>
+            
+            <p style="margin-top: 30px; color:#ff9999;">
+                <i class="fas fa-clock"></i> Respon admin dalam 1-5 menit (24 Jam)
+            </p>
+        </div>
+        
+        <footer>
+            <p>KAIZYE PAYMENT SYSTEM • ENCRYPTED CONNECTION • SECURE TRANSACTION</p>
+            <p>© 2025-2026 KAIZYE NETWORK • All transactions are final and non-refundable</p>
+        </footer>
+    </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> <span id="notificationText">Berhasil disalin!</span>
+    </div>
+    
+    <audio id="bgMusic" loop>
+        <source src="https://open.spotify.com/track/64qfw9JZl3RYCrq4Mn0WvT?si=7cZGauspSY2eFB8Cjor87g" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Audio control
+        const audioToggle = document.getElementById('audioToggle');
+        const bgMusic = document.getElementById('bgMusic');
+        const audioIcon = audioToggle.querySelector('i');
+        const audioText = audioToggle.querySelector('span');
+        let isPlaying = false;
+        
+        // Note: Spotify embed requires their widget, using direct link may not work
+        // Alternative: Use a different audio source or embed Spotify widget
+        
+        audioToggle.addEventListener('click', function() {
+            if (!isPlaying) {
+                // Try to play music (note: browsers require user interaction)
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    audioIcon.className = 'fas fa-pause';
+                    audioText.textContent = 'PAUSE MUSIC';
+                }).catch(error => {
+                    console.log("Autoplay prevented:", error);
+                    showNotification("Klik tombol play untuk memulai musik");
+                });
+            } else {
+                bgMusic.pause();
+                isPlaying = false;
+                audioIcon.className = 'fas fa-play';
+                audioText.textContent = 'PLAY MUSIC';
+            }
+        });
+        
+        // Upload area functionality
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const fileName = this.files[0].name;
+                uploadArea.innerHTML = `
+                    <i class="fas fa-file-image" style="font-size: 4rem; color:#00ffea; margin-bottom: 20px;"></i>
+                    <p style="font-size: 1.2rem;">${fileName}</p>
+                    <p style="color:#80ffea; margin-top: 10px;">File siap diupload</p>
+                `;
+                showNotification("File dipilih: " + fileName);
+            }
+        });
+        
+        uploadBtn.addEventListener('click', function() {
+            if (!fileInput.files[0]) {
+                showNotification("Pilih file terlebih dahulu!");
+                return;
+            }
+            
+            // Simulate upload
+            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> MENGUPLOAD...';
+            uploadBtn.disabled = true;
+            
+            setTimeout(() => {
+                showNotification("Bukti pembayaran berhasil diupload! Hubungi admin untuk konfirmasi");
+                uploadBtn.innerHTML = '<i class="fas fa-check"></i> TERKIRIM!';
+                
+                // Open WhatsApp after upload
+                setTimeout(() => {
+                    window.open('https://wa.me/6288220455270?text=Halo%20admin,%20saya%20sudah%20mengirim%20bukti%20pembayaran', '_blank');
+                }, 1000);
+            }, 2000);
+        });
+        
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification("Nomor berhasil disalin: " + text);
+            });
+        }
+        
+        // Notification function
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Glitch effect on title
+        const glitchTexts = document.querySelectorAll('.glitch-text');
+        setInterval(() => {
+            glitchTexts.forEach(text => {
+                text.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+            });
+        }, 100);
+        
+        // Cyber terminal effect
+        const cyberGrid = document.querySelector('.cyber-grid');
+        setInterval(() => {
+            cyberGrid.style.backgroundPosition = `${Math.random() * 100}px ${Math.random() * 100}px`;
+        }, 3000);
+        
+        // Initial notification
+        setTimeout(() => {
+            showNotification("KAIZYE Payment Portal Aktif. Musik siap diputar.");
+        }, 1000);
+    </script>
+</body>
+</html>
